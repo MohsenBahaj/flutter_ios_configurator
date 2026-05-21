@@ -21,7 +21,6 @@ Every Flutter developer building for iOS hits the same wall:
 
 - Windows developers are completely blocked
 - Developers with no Mac access are stuck
-- Even Mac users waste 20–30 minutes on every new project doing the same clicks in Xcode
 
 **This tool removes that wall entirely.**
 
@@ -93,11 +92,19 @@ dart pub global activate flutter_ios_configurator
 
 ## Usage
 
-Run from the **root of your Flutter project**:
+Run from the **root of your Flutter project:**
 
 ```bash
 flutter_ios_configurator
 ```
+
+> **Windows users:** If the command is not recognized, run:
+>
+> ```bash
+> dart pub global run flutter_ios_configurator
+> ```
+>
+> Or add `%LOCALAPPDATA%\Pub\Cache\bin` to your system PATH.
 
 ### Step 1 — Select capabilities
 
@@ -132,32 +139,43 @@ Select Background Modes if needed, enter your Google Maps API key if selected.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ iOS configuration complete!
-
-Next steps:
-1. Run: cd ios && pod install  (on Mac or CI/CD)
-2. Push your code and build via CI/CD
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-⭐ If this tool helped you, star the repo:
-   https://github.com/MohsenBahaj/flutter_ios_configurator
 ```
 
-### Step 4 — Build via CI/CD without Xcode
+### Step 4 — Build via CI/CD
 
-**Codemagic:**
+Push your code and build via your preferred CI/CD service.
 
-```yaml
-flutter build ios --release
+**If you have Mac access** — run pod install first:
+
+```bash
+cd ios && pod install
 ```
+
+**If you don't have Mac** — use Codemagic or GitHub Actions. They handle pod install automatically as part of the iOS build process.
+
+**Codemagic** (recommended — GUI based, no YAML needed):
+
+1. Connect your repo
+2. Select Flutter version and Xcode version
+3. Choose Debug / Release / Profile
+4. Start build — pod install runs automatically
 
 **GitHub Actions:**
 
 ```yaml
-- name: Build iOS
-  run: flutter build ios --release --no-codesign
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.32.8"
+      - run: flutter pub get
+      - run: cd ios && pod install
+      - run: flutter build ios --debug --no-codesign
 ```
-
-No Mac. No Xcode. No manual steps.
 
 ---
 
@@ -192,33 +210,6 @@ If `UIBackgroundModes` already exists, only missing modes are added.
 
 ---
 
-## After setup — CI/CD without Xcode
-
-Once configured, build and deploy your iOS app entirely from CI/CD:
-
-**Codemagic** — recommended for easy Xcode version management:
-
-1. Connect your repo
-2. Select Flutter version
-3. Select Xcode version
-4. Build
-
-**GitHub Actions:**
-
-```yaml
-jobs:
-  build-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      - run: flutter pub get
-      - run: cd ios && pod install
-      - run: flutter build ios --debug --no-codesign
-```
-
----
-
 ## Author
 
 Built by **Mohsen Bahaj**
@@ -231,18 +222,15 @@ Built by **Mohsen Bahaj**
 
 ## ⭐ Support this project
 
-If this tool saved you time, please **star the repository** — it helps other developers discover it.
+If this tool saved you time, please **star the repository.**
 
 👉 **[Star on GitHub](https://github.com/MohsenBahaj/flutter_ios_configurator)**
 
 Found a bug or have a feature request?
 👉 **[Open an issue](https://github.com/MohsenBahaj/flutter_ios_configurator/issues)**
 
-Want to contribute?
-👉 **[Read CONTRIBUTING.md](CONTRIBUTING.md)**
-
 ---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md)
