@@ -1,5 +1,17 @@
 # flutter_ios_configurator
 
+> ⚠️ **This package has been renamed and is no longer maintained.**
+> 
+> Please use the new package instead:
+> 
+> **[flutter_ios_capabilities_setup](https://pub.dev/packages/flutter_ios_capabilities_setup)**
+> 
+> ```bash
+> dart pub global activate flutter_ios_capabilities_setup
+> ```
+
+---
+
 > Configure iOS capabilities for your Flutter project — **without Xcode, from any OS including Windows.**
 
 [![pub.dev](https://img.shields.io/pub/v/flutter_ios_configurator.svg)](https://pub.dev/packages/flutter_ios_configurator)
